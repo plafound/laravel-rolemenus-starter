@@ -10,6 +10,7 @@ use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleMenusController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,15 @@ Route::middleware(['auth', 'cekRole'])->group(function () {
         }
         foreach (['store', 'show', 'destroy', 'uploadLogo'] as $key => $value) {
             Route::post($value == 'store' ? '/' : $value, [ConfigurationController::class, $value])->name('configuration.' . $value);
+        }
+    });
+
+    Route::prefix('user')->group(function () {
+        foreach (['index', 'table', 'getRoles'] as $key => $value) {
+            Route::get($value == 'index' ? '/' : $value, [UserController::class, $value])->name('user.' . $value);
+        }
+        foreach (['store', 'show', 'destroy'] as $key => $value) {
+            Route::post($value == 'store' ? '/' : $value, [UserController::class, $value])->name('user.' . $value);
         }
     });
 });
