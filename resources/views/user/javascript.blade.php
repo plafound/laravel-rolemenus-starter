@@ -100,23 +100,53 @@
                 type: "POST",
                 dataType: 'json',
                 success: function(data) {
-                    $('#form-user').trigger("reset");
-                    $("#modalUser").modal('hide');
-                    $("#user_id").val('');
+                    if(data.status === 'success'){
+                        Swal.fire({
+                        title: 'Sukses!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK' 
+                    }).then((result) => {
+                        if (result.isConfirmed){
+                            $('#form-user').trigger("reset");
+                            $("#modalUser").modal('hide');
+                            $("#user_id").val('');
 
-                    table.draw();
+                            table.draw();
+                        }
+                    });
+                    }
+                    else if (data.status === 'info'){
+                        Swal.fire({
+                            success: false,
+                            title: 'Password tidak sama',
+                            message: '',
+                            icon: 'info',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if(result.isConfirmed){
+                                // $('#form-user').trigger("reset");
+                                // $("#modalUser").modal('hide');
+                                // $("#user_id").val('');
+
+                                table.draw();
+                            }
+                        });
+                    }
                 },
                 error: function(data) {
                     console.log('Error:', data);
                     Swal.fire({
-                        success: false,
-                        title: "Error",
-                        message: "System error!"
-                    });
-                    // $('#saveBtn').html('Save Changes');
+                            success: false,
+                            title: "Error",
+                            message: "System error!"
+                        });
+                    table.draw()
+                        // $('#saveBtn').html('Save Changes');
                 }
             });
         };
+
 
 
         onDelete = (id) => {
