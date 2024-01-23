@@ -15,6 +15,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->foreignUlid('user_id');
             $table->string('activity');
+            $table->string('message')->nullable();
             $table->string('ip_address');
             $table->timestamps();
         });
